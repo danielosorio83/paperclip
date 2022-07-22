@@ -91,8 +91,8 @@ module Paperclip
       name = @name
       @klass.send(:after_save) { send(name).send(:save) }
       @klass.send(:before_destroy) { send(name).send(:queue_all_for_delete) }
-      if @klass.respond_to?(:after_commit)
-        @klass.send(:after_commit, on: :destroy) do
+      if @klass.respond_to?(:after_destroy_commit)
+        @klass.send(:after_destroy_commit) do
           send(name).send(:flush_deletes)
         end
       else
